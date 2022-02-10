@@ -10,6 +10,8 @@ public class CharacterController : MonoBehaviour
 
     public bool attacking = false;
 
+    Vector3 direction;
+
 
     Vector3 _aimPoint;
 
@@ -21,17 +23,19 @@ public class CharacterController : MonoBehaviour
         
     }
 
+    private void FixedUpdate()
+    {
+        if (direction.magnitude > 0.1f)
+        {
+            transform.Translate(direction * _moveSpeed * Time.deltaTime, Space.World);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
 
         //movement
-        Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-
-        if (direction.magnitude > 0.1f)
-        {
-            transform.Translate(direction * _moveSpeed * Time.deltaTime, Space.World);
-        }
+        direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
 
         //rotate character towards mouse
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
